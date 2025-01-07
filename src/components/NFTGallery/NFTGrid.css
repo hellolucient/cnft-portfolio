@@ -1,0 +1,33 @@
+.nft-gallery-container {
+  padding: 20px;
+}
+
+.collection-filter {
+  margin-bottom: 20px;
+}
+
+.collection-select {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  min-width: 200px;
+}
+
+.nft-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  max-width: 2000px; /* This will ensure ~10 items per row at max width */
+  margin: 0 auto;
+}
+
+@media (min-width: 2200px) {
+  .nft-grid {
+    grid-template-columns: repeat(10, 1fr); /* Force 10 items per row */
+  }
+}
+
+.nft-grid-item {
+  width: 100%;
+} 
