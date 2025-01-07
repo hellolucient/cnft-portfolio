@@ -1,0 +1,86 @@
+.wallet-manager {
+  margin: 20px 0;
+  padding: 20px;
+  background: #222;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.wallet-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.wallet-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  font-size: 14px;
+  background: #2a2a2a;
+  color: #fff;
+}
+
+.wallet-add-btn {
+  padding: 8px 16px;
+  background: #3d8b40;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.wallet-add-btn:hover {
+  background: #367c39;
+}
+
+.wallet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wallet-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #2a2a2a;
+  border-radius: 4px;
+  border: 1px solid #333;
+}
+
+.wallet-address {
+  font-family: monospace;
+  color: #fff;
+}
+
+.wallet-remove-btn {
+  padding: 4px 8px;
+  background: #d44040;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.wallet-remove-btn:hover {
+  background: #bf3939;
+}
+
+.main-wallet {
+  border-color: #3d8b40;
+  background: #2d332d;
+}
+
+.main-label {
+  background: #3d8b40;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-right: 8px;
+} 

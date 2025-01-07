@@ -2,18 +2,13 @@ import { useState, useEffect, useCallback } from 'react'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { NFT } from '../types'
 
-export function useNFTs() {
+export function useNFTs(additionalAddresses: string[] = []) {
   const [nfts, setNfts] = useState<NFT[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
   const { publicKey } = useWallet()
 
-  const fetchNFTs = useCallback(async () => {
-    if (!publicKey) {
-      setLoading(false)
-      return
-    }
-
+  const fetchNFTsForAddress = useCallback(async (address: string) => {
     try {
       const response = await fetch(
         'https://mainnet.helius-rpc.com/?api-key=' + process.env.REACT_APP_RPC_URL?.split('api-key=')[1],
@@ -27,7 +22,7 @@ export function useNFTs() {
             id: 'my-id',
             method: 'getAssetsByOwner',
             params: {
-              ownerAddress: publicKey.toString(),
+              ownerAddress: address,
               page: 1,
               limit: 1000
             }
@@ -43,13 +38,14 @@ export function useNFTs() {
       )
 
       // Map to our format
-      const formattedNFTs = compressedNfts.map((nft: any) => ({
+      return compressedNfts.map((nft: any) => ({
         id: nft.id,
         name: nft.content?.metadata?.name || 'Unnamed',
         symbol: nft.content?.metadata?.symbol || '',
         image: nft.content?.files?.[0]?.uri || nft.content?.links?.image || '',
         description: nft.content?.metadata?.description || '',
         assetId: nft.id,
+        ownerAddress: address, // Add owner address to track which wallet owns it
         compression: {
           compressed: true,
           proof: nft.compression?.proof,
@@ -58,19 +54,48 @@ export function useNFTs() {
           root: nft.compression?.root
         }
       }))
+    } catch (err) {
+      console.error(`Error fetching NFTs for address ${address}:`, err)
+      throw err
+    }
+  }, [])
 
-      setNfts(formattedNFTs)
+  const fetchAllNFTs = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const addresses = [...additionalAddresses]
+      if (publicKey) {
+        addresses.push(publicKey.toString())
+      }
+
+      if (addresses.length === 0) {
+        setNfts([])
+        return
+      }
+
+      const allNFTs = await Promise.all(
+        addresses.map(address => 
+          fetchNFTsForAddress(address).catch(err => {
+            console.error(`Failed to fetch NFTs for ${address}:`, err)
+            return []
+          })
+        )
+      )
+
+      setNfts(allNFTs.flat())
     } catch (err) {
       console.error('Error fetching NFTs:', err)
       setError(err instanceof Error ? err : new Error('Failed to fetch NFTs'))
     } finally {
       setLoading(false)
     }
-  }, [publicKey])
+  }, [publicKey, additionalAddresses, fetchNFTsForAddress])
 
   useEffect(() => {
-    fetchNFTs()
-  }, [fetchNFTs])
+    fetchAllNFTs()
+  }, [fetchAllNFTs])
 
-  return { nfts, loading, error, refreshNFTs: fetchNFTs }
+  return { nfts, loading, error, refreshNFTs: fetchAllNFTs }
 } 

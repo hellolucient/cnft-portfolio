@@ -5,6 +5,7 @@ export interface NFT {
   symbol: string
   description: string
   assetId: string
+  ownerAddress: string
   compression: {
     compressed: boolean
     proof?: string[]
@@ -12,4 +13,8 @@ export interface NFT {
     tree?: string
     root?: string
   }
+}
+
+export interface SelectionState {
+  [key: string]: boolean; // key is NFT id, value is selected state
 } 

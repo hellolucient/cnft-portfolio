@@ -1,21 +1,26 @@
 .nft-card {
-  background: #ffffff;
+  background: #2a2a2a;
   border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   overflow: hidden;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   width: 100%;
+  cursor: pointer;
 }
 
 .nft-card:hover {
   transform: translateY(-4px);
+  border-color: #444;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .nft-image-container {
   aspect-ratio: 1;
   overflow: hidden;
   width: 100%;
-  background: #f5f5f5;
+  background: #222;
+  position: relative;
 }
 
 .nft-image {
@@ -42,6 +47,8 @@
 
 .nft-info {
   padding: 12px;
+  background: #2a2a2a;
+  border-top: 1px solid #333;
 }
 
 .nft-name {
@@ -51,10 +58,39 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: #fff;
 }
 
 .nft-symbol {
+  color: #999;
+  font-size: 12px;
+  margin: 4px 0 0;
+}
+
+.nft-wallet {
   color: #666;
   font-size: 12px;
   margin: 4px 0 0;
+  font-family: monospace;
+}
+
+.nft-card.selected {
+  border-color: #3d8b40;
+  box-shadow: 0 0 0 1px #3d8b40;
+}
+
+.selected-overlay {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  background: #3d8b40;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 } 
